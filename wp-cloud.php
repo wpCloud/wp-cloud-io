@@ -1,8 +1,8 @@
 <?php
 /**
- * _Plugin Name: WP-Cloud
+ * Plugin Name: WP-Cloud
  * Plugin URI: http://wpcloud.io/plugins/wp-cloud
- * Description: Manage wpCloud site
+ * Description: Core wpCloud.io functionality.
  * Version: 0.5.0
  * Author: wpCloud.io
  * Author URI: http://wpcloud.io/
