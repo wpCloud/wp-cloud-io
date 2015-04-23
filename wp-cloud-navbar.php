@@ -28,32 +28,43 @@ namespace wpCloud\Navbar {
     public static function wp_before_admin_bar_render( $wp_admin_bar ) {
       global $wp_admin_bar;
 
-      $wp_admin_bar->remove_menu( 'wp-logo' );
-      $wp_admin_bar->remove_menu( 'comments' );
-      $wp_admin_bar->remove_menu( 'wpseo-menu' );
       //$wp_admin_bar->remove_menu('user-actions' );
       //$wp_admin_bar->remove_menu('user-info' );
 
     }
 
     public static function admin_menu( ) {
-      remove_submenu_page( 'index.php', 'wpmandrill-reports' );
-      remove_submenu_page( 'index.php', 'my-sites.php' );
-      remove_submenu_page( 'edit.php?post_type=property', 'show_agents' );
+      // remove_submenu_page( 'index.php', 'wpmandrill-reports' );
+      // remove_submenu_page( 'index.php', 'my-sites.php' );
     }
 
+    /**
+     * Render Backend/Container Info
+     *
+     * @param $wp_admin_bar
+     */
     public static function admin_bar_menu( $wp_admin_bar ) {
 
       if( !is_super_admin() || !is_multisite() || !$wp_admin_bar ) {
         return;
       }
 
-      if( !$_backend = isset( $_SERVER['HTTP_X_SELECTED_BACKEND'] ) ? $_SERVER['HTTP_X_SELECTED_BACKEND'] : null ) {
-        return;
+      $_backend = null;
+
+      if( isset( $_SERVER['HTTP_X_SELECTED_BACKEND'] ) ) {
+        $_backend = $_SERVER['HTTP_X_SELECTED_BACKEND'];
+      }
+
+      if( !$_backend  && isset( $_SERVER['HTTP_X_VARNISH_BACKEND'] ) ) {
+        $_backend = $_SERVER['HTTP_X_VARNISH_BACKEND'];
+      }
+
+      if( !$_backend && isset( $_SERVER['HTTP_X_SET_BACKEND'] ) ) {
+        $_backend = $_SERVER['HTTP_X_SET_BACKEND'];
       }
 
       $wp_admin_bar->add_menu( array(
-        'id' => 'cloud-backend',
+        'id' => 'wp-cloud-backend',
         'parent' => 'top-secondary',
         'title' => sprintf( __( '%s' ), $_backend ),
         'href' => '#'
@@ -62,7 +73,7 @@ namespace wpCloud\Navbar {
     }
 
     public static function admin_print_footer_scripts() {
-      echo '<style type="text/css">#wpadminbar li#wp-admin-bar-cloud-backend {background-color: rgb(77, 22, 22);}</style>';
+      echo '<style type="text/css">#wpadminbar li#wp-admin-bar-wp-cloud-backend {background-color: rgb(77, 22, 22);}</style>';
     }
 
   }
