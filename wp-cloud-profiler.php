@@ -48,7 +48,7 @@ namespace wpCloud\Profiler {
       register_shutdown_function( function() {
         global $wp_cloud;
 
-        die( '<pre>' . print_r( $wp_cloud, true ) . '</pre>' );
+        // die( '<pre>' . print_r( $wp_cloud, true ) . '</pre>' );
       });
 
 
