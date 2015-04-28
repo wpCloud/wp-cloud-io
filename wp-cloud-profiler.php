@@ -26,36 +26,33 @@ namespace wpCloud\Profiler {
       // die( 'plugins_loaded' );
 
       if( !isset( $wp_cloud ) ) {
-        $wp_cloud = (object) array( '_events' => array() );
+        $wp_cloud = (object)array( '_events' => array() );
       }
 
       if( file_exists( __DIR__ . '/vendor/libraries/autoload.php' ) ) {
         include_once( __DIR__ . '/vendor/libraries/autoload.php' );
       }
 
-      add_action( 'init', 'wpCloud\Profiler\Action::log' );
-      add_action( 'muplugins_loaded', 'wpCloud\Profiler\Action::log' );
-      add_action( 'wp', 'wpCloud\Profiler\Action::log' );
-      add_action( 'template_redirect', 'wpCloud\Profiler\Action::log' );
-      add_action( 'wp_loaded', 'wpCloud\Profiler\Action::log' );
-      add_action( 'parse_request', 'wpCloud\Profiler\Action::log' );
-      add_action( 'get_header', 'wpCloud\Profiler\Action::log' );
-      add_action( 'plugins_loaded', 'wpCloud\Profiler\Action::log' );
-      add_action( 'get_header', 'wpCloud\Profiler\Action::log' );
-      add_action( 'wp_print_styles', 'wpCloud\Profiler\Action::log' );
-      add_action( 'get_footer', 'wpCloud\Profiler\Action::log' );
+      // add_action( 'init', 'wpCloud\Profiler\Action::log' );
+      // add_action( 'muplugins_loaded', 'wpCloud\Profiler\Action::log' );
+      // add_action( 'wp', 'wpCloud\Profiler\Action::log' );
+      // add_action( 'template_redirect', 'wpCloud\Profiler\Action::log' );
+      // add_action( 'wp_loaded', 'wpCloud\Profiler\Action::log' );
+      // add_action( 'parse_request', 'wpCloud\Profiler\Action::log' );
+      // add_action( 'get_header', 'wpCloud\Profiler\Action::log' );
+      // add_action( 'plugins_loaded', 'wpCloud\Profiler\Action::log' );
+      // add_action( 'get_header', 'wpCloud\Profiler\Action::log' );
+      // add_action( 'wp_print_styles', 'wpCloud\Profiler\Action::log' );
+      // add_action( 'get_footer', 'wpCloud\Profiler\Action::log' );
 
-      register_shutdown_function( function() {
+      register_shutdown_function( function () {
         global $wp_cloud;
 
-        die( '<pre>' . print_r( $wp_cloud, true ) . '</pre>' );
-      });
-
+      } );
 
     }
 
     function init() {
-
 
     }
 
@@ -75,7 +72,6 @@ namespace wpCloud\Profiler {
       header( "X-Debug-Database-Dataset:" . $wpdb->dataset );
       header( "X-Debug-Database-SaveQueries:" . $wpdb->save_queries );
 
-
       if( !headers_sent() ) {
         global $wp_locale;
         if( !isset( $wp_locale ) ) {
@@ -87,11 +83,6 @@ namespace wpCloud\Profiler {
 
     }
 
-  }
-
-
-
-  if( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
   }
 
 }
