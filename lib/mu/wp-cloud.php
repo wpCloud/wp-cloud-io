@@ -10,12 +10,19 @@
  *
  * add "wp cloud" CLI commands.
  *
+ *
+ * HTTP_X_VARNISH
+ * HTTP_X_WP_CONSTANTS
+ * HTTP_X_OPTION_ACTIVETHEME
+ * HTTP_X_SELECTED_BACKEND
+ * HTTP_X_WP_ADVANCEDCACHE
+ * HTTP_X_WP_OBJECTCACHE
+ * HTTP_X_WP_DATABASE
+ * HTTP_X_WP_CLUSTER
+ * HTTP_X_USER_DEVICE
+ *
  */
 namespace wpCloud {
-
-  if( defined( 'WP_HOME' ) ) {
-    //add_filter( 'get_option' )
-  }
 
   // Can't always expect Apache to fix this.
   if( isset( $_SERVER[ 'HTTP_X_FORWARDED_PROTO' ] ) && $_SERVER[ 'HTTP_X_FORWARDED_PROTO' ] == 'https' && !isset( $_SERVER[ 'HTTPS' ] ) ) {
@@ -38,6 +45,13 @@ namespace wpCloud {
   // Change default /var/www/wp-content/debug.log to /var/www/wp-logs/debug.log
   if( defined( 'WP_LOGS_DIR' ) ) {
     ini_set( 'error_log', rtrim( ABSPATH, '/' ) . '/' . ltrim( WP_LOGS_DIR, '/' ) );
+  }
+
+  // Theme Override.
+  if( isset( $_SERVER[ 'HTTP_X_OPTION_ACTIVETHEME' ] ) ) {
+    add_filter( 'pre_option_current_theme', function() { return $_SERVER[ 'HTTP_X_OPTION_ACTIVETHEME' ]; });
+    add_filter( 'pre_option_stylesheet', function() { return $_SERVER[ 'HTTP_X_OPTION_ACTIVETHEME' ]; });
+    add_filter( 'pre_option_template', function() { return $_SERVER[ 'HTTP_X_OPTION_ACTIVETHEME' ]; });
   }
 
   // Return 200 if varnish uptime probe. This solves the 301 issue. Could also be ran in sunrise earlier but sunrise isn't always enabled.
@@ -271,10 +285,8 @@ namespace wpCloud {
       header( "X-Release:" . php_uname('r'));
       header( "X-Version:" . php_uname('v'));
       header( "X-Machine:" . php_uname('m'));
-      header( 'Cache-Control:no-cache,no-store' );
-
+      header( 'Cache-Control:public,no-cache,no-store' );
       die('ok');
-
     }
 
     /**
