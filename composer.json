@@ -33,9 +33,11 @@
     }
   },
   "require": {
-    "composer/installers": "~1.0"
+    "composer/installers": "~1.0",
+    "wpplex/wp-autoupdate": "*"
   },
   "autoload": {
     "classmap": [ "lib", "lib/api" ]
-  }
+  },
+  "minimum-stability": "dev"
 }

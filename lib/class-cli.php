@@ -95,9 +95,9 @@ namespace wpCloud\CLI {
           WP_CLI::error( "Backup Failed." );
         }
       }
+
     }
 
-    WP_CLI::add_command( 'cloud', 'wpCloud\Cloud_CLI_Command' );
 
   }
 

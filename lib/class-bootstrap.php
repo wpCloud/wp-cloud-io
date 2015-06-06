@@ -6,6 +6,9 @@
  */
 namespace wpCloud {
 
+  use wpplex\WP_AutoUpdate;
+  use WP_CLI;
+
   if ( !class_exists( 'wpCloud\Bootstrap' ) ) {
 
     /**
@@ -47,9 +50,17 @@ namespace wpCloud {
       static public $text_domain;
 
       /**
+       * @var Updater
+       */
+      static public $updater;
+
+      /**
        * @param array $config
        */
       public function __construct( $config = array() ) {
+        global $current_blog;
+
+        // $plugin_data = get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin );
 
         $this->_config = (object) $config;
 
@@ -58,6 +69,27 @@ namespace wpCloud {
         self::$_path = Utility::normalize_path( isset( $this->_config->_path ) ? $this->_config->_path : dirname( __DIR__ ) . '/wp-cloud.php' );
         self::$text_domain = isset( $this->_config->_domain ) ? $this->_config->_domain : 'wp-cloud';
 
+        self::$updater = Updater::register(array(
+          'update_path' => 'https://updates.usabilitydynamics.com/v2.0/index.php',
+          'plugin_slug' => 'wp-cloud-1.0/wp-cloud.php',
+          'current_version' => '1.0',
+          'license_user' => $current_blog->domain,
+          'license_key' => 'some-key'
+        ));
+
+        //delete_site_transient( 'update_plugins' );
+
+        // force
+        wp_update_plugins();
+
+        //die( '<pre>st ' . print_r( get_site_transient( 'update_plugins' ), true ) . '</pre>' );
+
+
+        add_action( 'init', function() {
+          // self::$updater->update();
+        }, 1000);
+
+        // die( '<pre>' . print_r( self::$updater , true ) . '</pre>' );
 
         // add_action( 'init', array( $this, 'init' ), 100 );
         // add_action( 'admin_init', array( $this, 'admin_init' ), 100 );
@@ -73,6 +105,7 @@ namespace wpCloud {
         // add_filter( 'wpCloud:controller:controllers', array( $this, 'cleanControllers' ), 100 );
 
 
+        WP_CLI::add_command( 'cloud', 'wpCloud\CLI\Cloud_CLI_Command' );
 
       }
 

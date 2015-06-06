@@ -6,4 +6,5 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname(dirname($vendorDir));
 
 return array(
+    'wpplex\\WP_AutoUpdate\\' => array($vendorDir . '/wpplex/wp-autoupdate'),
 );

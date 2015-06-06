@@ -3,7 +3,7 @@
  * Plugin Name: WP-Cloud
  * Plugin URI: http://wpcloud.io/plugins/wp-cloud
  * Description: Core wpCloud.io functionality.
- * Version: 0.5.0
+ * Version: 1.5.1
  * Author: wpCloud.io
  * Author URI: http://wpcloud.io/
  * License: GPLv2 or later
@@ -21,9 +21,10 @@ if( file_exists( __DIR__ . '/vendor/libraries/autoload.php' ) ) {
 
 if( class_exists( '\wpCloud\Bootstrap' ) ) {
 
-  new wpCloud\Bootstrap(array(
+  $_wp_cloud = new wpCloud\Bootstrap(array(
     "path" => plugin_dir_path( __FILE__ ),
     "url" => plugin_dir_url( __FILE__ )
   ));
 
 }
+
