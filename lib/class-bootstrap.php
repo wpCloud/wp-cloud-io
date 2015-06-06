@@ -80,10 +80,9 @@ namespace wpCloud {
         //delete_site_transient( 'update_plugins' );
 
         // force
-        wp_update_plugins();
+        // wp_update_plugins();
 
         //die( '<pre>st ' . print_r( get_site_transient( 'update_plugins' ), true ) . '</pre>' );
-
 
         add_action( 'init', function() {
           // self::$updater->update();
@@ -105,7 +104,9 @@ namespace wpCloud {
         // add_filter( 'wpCloud:controller:controllers', array( $this, 'cleanControllers' ), 100 );
 
 
-        WP_CLI::add_command( 'cloud', 'wpCloud\CLI\Cloud_CLI_Command' );
+        if( class_exists( 'WP_CLI' ) && class_exists( 'wpCloud\CLI\Cloud_CLI_Command' )) {
+          WP_CLI::add_command( 'cloud', 'wpCloud\CLI\Cloud_CLI_Command' );
+        }
 
       }
 
