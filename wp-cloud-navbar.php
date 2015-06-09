@@ -45,20 +45,21 @@ namespace wpCloud\Navbar {
      */
     public static function admin_bar_menu( $wp_admin_bar ) {
 
-      if( !is_super_admin() || !is_multisite() || !$wp_admin_bar ) {
+      if( !$wp_admin_bar ) {
         return;
       }
 
       $_backend = null;
-
       if( isset( $_SERVER['HTTP_X_SELECTED_BACKEND'] ) ) {
         $_backend = $_SERVER['HTTP_X_SELECTED_BACKEND'];
       }
 
-      if( !$_backend  && isset( $_SERVER['HTTP_X_VARNISH_BACKEND'] ) ) {
+      // overrides HTTP_X_SELECTED_BACKEND
+      if( isset( $_SERVER['HTTP_X_VARNISH_BACKEND'] ) ) {
         $_backend = $_SERVER['HTTP_X_VARNISH_BACKEND'];
       }
 
+      // default to this if set
       if( !$_backend && isset( $_SERVER['HTTP_X_SET_BACKEND'] ) ) {
         $_backend = $_SERVER['HTTP_X_SET_BACKEND'];
       }
