@@ -113,9 +113,11 @@ namespace wpCloud\AdvancedCache {
             /**
              * Parse GET
              */
-            parse_str( substr_replace( $_REQUEST['action'], '', 0, strpos( $_REQUEST['action'], '?' )+1 ) , $this->get_args );        
+
+            parse_str( substr_replace( $_REQUEST['action'], '', 0, strpos( $_REQUEST['action'], '?' )+1 ) , $this->get_args );
+
             $this->controller = substr( $_REQUEST['action'], 0, strpos( $_REQUEST['action'], '?' ) );
-            
+
             if ( !function_exists( 'curl_init' ) ) {
               throw new \Exception( 'cURL not found.' );
             }
@@ -127,8 +129,8 @@ namespace wpCloud\AdvancedCache {
               CURLOPT_PORT => self::ELASTIC_SEARCH_SERVER_PORT,
               CURLOPT_CUSTOMREQUEST => 'GET',
               CURLOPT_RETURNTRANSFER => 1,
-              CURLOPT_TIMEOUT => 25,
-              CURLOPT_CONNECTTIMEOUT => 25,
+              CURLOPT_TIMEOUT => 5,
+              CURLOPT_CONNECTTIMEOUT => 5,
             ));
 
             if( !$this->response = curl_exec( $this->curl ) ) {
@@ -234,6 +236,7 @@ namespace wpCloud\AdvancedCache {
        * @return type
        */
       private function build_url( $base_url = '' ) {
+
         return $base_url . '/'. self::ELASTIC_SEARCH_INDEX . str_replace( $this->uri_prefix, '', $this->controller ) . '?' . str_replace( $this->uri_prefix, '', http_build_query( $this->get_args ) );
       }
       
