@@ -9,8 +9,8 @@
  * License: GPLv2 or later
  * Network: True
  * Domain Path: /static/locale/
- * Text Domain: wp-cloud
- * GitHub Plugin URI: wpCloud/wp-cloud
+ * Text Domain: wp-cloud-io
+ * GitHub Plugin URI: wpCloud/wp-cloud-io
  * GitHub Branch: v1.0
  *
  */
